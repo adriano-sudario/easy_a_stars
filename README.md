@@ -1,0 +1,1 @@
+# easy_a_stars
