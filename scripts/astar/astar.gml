@@ -35,14 +35,18 @@ function AstarNode(_position, _destination, _parent = undefined) constructor {
 		var _current_neighbor_position = grid_get_map_position(
                 new Vector2(_current_neighbor_grid_position.x, _current_neighbor_grid_position.y));
         var _add_to_neighbors = true;
+		
+		var _is_on_same_parent_position = parent != undefined
+			&& _current_neighbor_grid_position.x == parent.gridPosition.x
+			&& _current_neighbor_grid_position.y == parent.gridPosition.y;
+		var _is_on_same_position = _current_neighbor_grid_position.x == gridPosition.x
+			&& _current_neighbor_grid_position.y == gridPosition.y;
+		var _is_out_of_room = _current_neighbor_grid_position.x < 0
+			|| _current_neighbor_grid_position.y < 0
+			|| _current_neighbor_grid_position.x >= _world_grid_size.x
+			|| _current_neighbor_grid_position.y >= _world_grid_size.y;
 				
-        if ((parent != undefined && (_current_neighbor_grid_position.x == parent.gridPosition.x &&
-            _current_neighbor_grid_position.y == parent.gridPosition.y)) ||
-            (_current_neighbor_grid_position.x == gridPosition.x &&
-            _current_neighbor_grid_position.y == gridPosition.y) ||
-            (_current_neighbor_grid_position.x < 0 || _current_neighbor_grid_position.y < 0) ||
-            (_current_neighbor_grid_position.x >= _world_grid_size.x ||
-			_current_neighbor_grid_position.y >= _world_grid_size.y)) {
+        if (_is_on_same_parent_position || _is_on_same_position || _is_out_of_room) {
             _add_to_neighbors = false;
 		} else {
 			var _current_neighbor_rectangle = {
